@@ -1,4 +1,3 @@
-
 /* description: Parses end executes mathematical expressions. */
 
 /* lexical grammar */
@@ -25,6 +24,7 @@
 
 /* operator associations and precedence */
 
+%right '='
 %left '+' '-'
 %left '*' '/'
 %left '^'
@@ -37,13 +37,18 @@
 %% /* language grammar */
 
 expressions
-    : e EOF
-        { typeof console !== 'undefined' ? console.log($1) : print($1);
-          return $1; }
+    : s 
+        { $$ = $1? [ $ }
     ;
 
-e
-    : e '+' e
+
+
+
+
+
+    | ID '=' e { symbol_table[$ID] = $$ = $e; }
+    
+    | e '+' e
         {$$ = $1+$3;}
     | e '-' e
         {$$ = $1-$3;}
@@ -69,5 +74,6 @@ e
         {$$ = Math.E;}
     | PI
         {$$ = Math.PI;}
+    | ID. { $$ = symbol_table[$ID]; }
     ;
 
